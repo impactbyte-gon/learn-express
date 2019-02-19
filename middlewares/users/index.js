@@ -46,22 +46,54 @@ module.exports = {
 
   // ---------------------------------------------------------------------------
   // Delete all users
-
   deleteAllUsers: (req, res) => {
+    // Empty all users
+    users = []
+
     res.send({
-      message: 'All users has been deleted'
+      message: 'All users has been deleted',
+      users: users
     })
   },
 
+  // ---------------------------------------------------------------------------
+  // Delete one user by id
   deleteOneUserById: (req, res) => {
+    // Get id from params (/users/:id)
+    const id = Number(req.params.id)
+
+    // Replace users with filtered users
+    users = users.filter(user => user.id !== id)
+
     res.send({
-      message: 'One user has been deleted'
+      message: 'One user has been deleted',
+      id: id
     })
   },
 
+  // ---------------------------------------------------------------------------
+  // Update one user by id
   updateOneUserById: (req, res) => {
+    // Get id from params (/users/:id)
+    const id = Number(req.params.id)
+
+    // Get new name from request body (req.body)
+    const newName = req.body.name
+
+    // Change name in user with matching id
+    const newUsers = users.map(user => {
+      if (user.id === id) {
+        user.name = newName
+        return user
+      } else {
+        return user
+      }
+    })
+
     res.send({
-      message: 'One user has been updated'
+      message: 'One user has been updated',
+      id: id,
+      newName: newName
     })
   }
 }
