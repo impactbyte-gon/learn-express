@@ -4,7 +4,9 @@ const port = 8000
 
 // GET http://localhost:8000/
 app.get('/', (req, res) => {
-  res.send('Hello World')
+  res.send({
+    message: 'Hello World'
+  })
 })
 
 app.listen(port, () => {
