@@ -4,14 +4,18 @@
   "description": "Learn Express",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/impactbyte-gon/learn-express.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "learn",
+    "express"
+  ],
+  "author": "M Haidar Hanif",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/impactbyte-gon/learn-express/issues"
