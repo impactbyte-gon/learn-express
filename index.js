@@ -1,91 +1,30 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const helmet = require('helmet')
+const cors = require('cors')
 const app = express()
-const port = 8000
+const port = 8000 // set the default PORT
 
 // -----------------------------------------------------------------------------
 // EXPRESS PLUGINS
 
-// Use body-parser into express
+// Use body-parser into express, so we can get request body (req.body)
 app.use(bodyParser.json())
-
-// -----------------------------------------------------------------------------
-// DATA
-
-let nextId = 8
-let users = [
-  {
-    id: 1,
-    name: 'Haidar'
-  },
-  {
-    id: 2,
-    name: 'Bara'
-  },
-  {
-    id: 3,
-    name: 'Ajin'
-  },
-  {
-    id: 4,
-    name: 'Sakti'
-  },
-  {
-    id: 5,
-    name: 'Jonathan'
-  },
-  {
-    id: 6,
-    name: 'Mario'
-  },
-  {
-    id: 7,
-    name: 'Fahri'
-  }
-]
+app.use(helmet())
+app.use(cors())
 
 // -----------------------------------------------------------------------------
 // EXPRESS ROUTES/ENDPOINTS
 
-// Get hello world
-app.get('/', (req, res) => {
-  res.send({
-    message: 'Hello World'
-  })
-})
+const root = require('./middlewares/index')
+const users = require('./middlewares/users')
 
-// List all users
-app.get('/users', (req, res) => {
-  res.send({
-    message: 'List of users',
-    data: users
-  })
-})
-
-// Create new user
-app.post('/users', (req, res) => {
-  // Check if name in request body is exist
-  if (req.body.name) {
-    // Get new user data from request
-    const newUser = {
-      id: nextId,
-      name: req.body.name
-    }
-
-    // Concat new user into newUsers variable
-    // Then replace old users with new users
-    users = users.concat(newUser)
-    // Increment nextId
-    nextId++
-
-    // Send response
-    res.send({
-      message: 'Created new user',
-      newUser: newUser,
-      data: users
-    })
-  }
-})
+app.get('/', root.hello)
+app.get('/users', users.getUsers)
+app.post('/users', users.createNewUser)
+app.delete('/users', users.deleteAllUsers)
+app.delete('/users/:id', users.deleteOneUserById)
+app.put('/users/:id', users.updateOneUserById)
 
 // -----------------------------------------------------------------------------
 // RUN EXPRESS
